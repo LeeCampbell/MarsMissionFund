@@ -4,7 +4,7 @@
 > **Version**: 0.3
 > **Status**: Approved
 > **Rate of Change**: Per feature / per release
-> **Depends On**: L1-001 (Product Vision & Mission), L2-001 (standards/brand.md), L3-005 (tech/frontend.md), L4-002 (domain/campaign.md), L4-004 (domain/payments.md)
+> **Depends On**: L1-001 (Product Vision & Mission), L2-001 (standards/brand.md), L3-005 (tech/frontend.md), L4-001 (domain/account.md), L4-002 (domain/campaign.md), L4-004 (domain/payments.md)
 > **Depended On By**: —
 
 ---
@@ -210,8 +210,8 @@ Campaign Page → "Back This Mission" CTA → Contribution Amount Selection
 
 - Predefined contribution tiers (if defined by campaign creator — see [Campaign](L4-002) interface contract).
 - Custom amount entry with minimum and maximum validation.
-  Minimum contribution amount is **$10 AUD** (platform-level configuration).
-  For multi-currency support, the minimum is the equivalent of $10 AUD in the donor's selected currency at the time of contribution.
+  Minimum contribution amount is **$5 USD** (platform-level configuration).
+  For the initial release, all contributions are in USD only.
   Maximum is governed by regulatory limits (if applicable) and campaign caps.
 - Amount displayed with currency formatting per donor locale.
 
@@ -431,5 +431,5 @@ This spec **consumes** backer identity and preferences.
 | Date | Version | Author | Summary |
 | ---- | ------- | ------ | ------- |
 | March 2026 | 0.3 | — | Added social sharing to In Scope list, clarified multi-currency minimum contribution equivalent, added AC-DONOR-020 for anonymous browsing. |
-| March 2026 | 0.2 | — | Resolved all 7 open questions: hybrid recommendation algorithm, 20% diversity floor, $10 AUD minimum contribution, 1 re-engagement notification per week cap, anonymous browse access, AU/US/EU/UK tax receipt jurisdictions, social sharing (campaign link only to X/Twitter/Facebook/LinkedIn/clipboard). Added Section 6.6 (Social Sharing) and AC-DONOR-019. |
+| March 2026 | 0.2 | — | Resolved all 7 open questions: hybrid recommendation algorithm, 20% diversity floor, $5 USD minimum contribution, 1 re-engagement notification per week cap, anonymous browse access, AU/US/EU/UK tax receipt jurisdictions, social sharing (campaign link only to X/Twitter/Facebook/LinkedIn/clipboard). Added Section 6.6 (Social Sharing) and AC-DONOR-019. |
 | March 2026 | 0.1 | — | Initial stub. Discovery and search, recommendation engine, curated collections, contribution flow, contribution history, impact reporting, repeat engagement, interface contracts with Campaign, Payments, and Account. |

@@ -4,7 +4,7 @@
 > **Version**: 0.2
 > **Status**: Approved
 > **Rate of Change**: Per feature / per release
-> **Depends On**: L1-001 (Product Vision & Mission), L2-001 (standards/brand.md), L3-001 (tech/architecture.md), L3-006 (tech/audit.md), L4-004 (domain/payments.md)
+> **Depends On**: L1-001 (Product Vision & Mission), L2-001 (standards/brand.md), L3-001 (tech/architecture.md), L3-006 (tech/audit.md), L4-004 (domain/payments.md), L4-005 (domain/kyc.md)
 > **Depended On By**: L4-003 (domain/donor.md)
 
 ---
@@ -460,7 +460,7 @@ The event schema and transport mechanism are defined in [Architecture](L3-001).
 | **Creator** | Create drafts, edit drafts, submit proposals, launch approved campaigns, post updates, submit milestone evidence, request cancellation, request deadline extensions, request milestone changes |
 | **Reviewer** | View and claim submitted proposals from review queue, approve/reject proposals, request clarification, recuse from review |
 | **Admin** | Reassign reviewers, approve cancellations, verify milestones, handle appeals, approve/reject deadline extensions, approve/reject milestone changes, manage suspended campaigns (restore or cancel) |
-| **Contributor** (Donor) | View live campaigns, contribute (via [Payments](L4-004)), view updates and milestone progress |
+| **Backer** (Donor) | View live campaigns, contribute (via [Payments](L4-004)), view updates and milestone progress |
 
 Role definitions and assignment are governed by [Account](L4-001).
 Campaign enforces permissions based on the authenticated user's role.
