@@ -70,6 +70,15 @@
 - **Webhook verification**: Svix HMAC-SHA256 signature, at-least-once delivery, handlers must be idempotent
 - **Environment variables**: `CLERK_PUBLISHABLE_KEY`, `CLERK_SECRET_KEY` (backend), `VITE_CLERK_PUBLISHABLE_KEY` (frontend), `CLERK_WEBHOOK_SIGNING_SECRET` (webhooks)
 
+## Onboarding
+
+- **Onboarding is a phase within the account lifecycle**, not a separate domain concern (per L4-001 Section 2).
+- **Onboarding completion** = role selected + user reached home surface. Profile completion and KYC are NOT gates.
+- **Onboarding steps**: welcome -> role_selection -> profile -> preferences -> completed.
+- **Role selection at onboarding** is additive: selecting Creator adds `creator` to the existing `['backer']` roles array. It does not replace roles.
+- **Progressive profiling**: display name, avatar, bio are optional during onboarding. Users can skip and complete later via profile settings.
+- **Notification preference defaults**: all opt-in except platform announcements (opt-out). Security alerts always on and cannot be disabled.
+
 ## Infrastructure Conventions
 
 - **Local dev**: Docker Compose stack with PostgreSQL 16, backend, frontend, dbmate

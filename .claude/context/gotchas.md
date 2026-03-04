@@ -73,6 +73,24 @@ For local dev, use ngrok or skip webhooks entirely and rely on JIT account creat
 Always use `INSERT ... ON CONFLICT` or upsert patterns in webhook handlers.
 - CORS: When frontend and backend run on different ports, the backend must allow `Authorization` in `Access-Control-Allow-Headers` for Bearer token requests to work.
 
+## Frontend API Client Missing PATCH Method
+
+- The `ApiClient` in `packages/frontend/src/lib/api-client.ts` has `get`, `post`, `put`, `del` methods but no `patch` method.
+- The `ApiClientRequestOptions` type already includes `'PATCH'` in its method union, so adding `patch` is straightforward.
+- Any feature requiring PATCH requests (feat-004 onboarding, profile updates) must add this method first.
+
+## Clerk Webhook Display Name Overwrite
+
+- The `upsertFromWebhook` method in `PgAccountRepository` unconditionally overwrites `display_name` on `ON CONFLICT`.
+- If a user sets a custom display name via the MMF UI, a subsequent Clerk `user.updated` webhook will overwrite it.
+- Fix: the webhook upsert should only set `display_name` when the current value is NULL, or MMF-set values should take precedence.
+
+## Event Store Not Yet Used
+
+- The `events` table exists (migration `20260304000002`) with append-only triggers, but no code writes to it yet.
+- The first feature to emit events will need to implement the `EventStore` port and PG adapter from scratch.
+- Events and aggregate updates must be in the same database transaction (transactional outbox pattern within single DB).
+
 ## npm Workspaces Hoisting
 
 - npm hoists the most common version of a shared dependency to the root.
