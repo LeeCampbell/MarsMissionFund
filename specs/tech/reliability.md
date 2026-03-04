@@ -5,7 +5,7 @@
 > **Status**: Approved
 > **Rate of Change**: Sprint-level / tech decisions
 > **Depends On**: L2-002 (standards/engineering.md), L3-001 (tech/architecture.md)
-> **Depended On By**: (none currently listed in specs/README.md)
+> **Depended On By**: L3-006, L4-004
 
 ---
 

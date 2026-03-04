@@ -5,7 +5,7 @@
 > **Status**: Approved
 > **Rate of Change**: Per feature / per release
 > **Depends On**: L2-001 (Brand Application Standard), L3-002 (Security), L3-005 (Frontend Standards), L4-005 (KYC)
-> **Depended On By**: L4-002 (Campaign), L4-003 (Donor)
+> **Depended On By**: L4-002 (Campaign), L4-003 (Donor), L4-004 (Payments)
 
 ---
 

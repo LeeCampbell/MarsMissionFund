@@ -118,7 +118,7 @@ Per [Engineering Standard](L2-002), Section 1.2, all data access goes through a 
 - Access control validation (the calling identity has permission to access the requested resource).
 - Structured logging of all data access operations (resource ID, action, actor — never raw PII).
 
-The specific ORM or query builder is recorded in the Technology Selection Registry (Section 8).
+The data access layer uses raw SQL via pg (parameterised queries) — no ORM or query builder.
 
 ### 4.3 Data Model Diagram
 
@@ -261,7 +261,7 @@ Per [Engineering Standard](L2-002), Section 3.1, architectural decisions affecti
 
 ### 7.2 ADR Template
 
-Each ADR is stored in `docs/adrs/` with the filename `NNNN-<short-title>.md`:
+Each ADR is stored in `specs/adrs/` with the filename `NNNN-<short-title>.md`:
 
 ```markdown
 # ADR-NNNN: <Title>

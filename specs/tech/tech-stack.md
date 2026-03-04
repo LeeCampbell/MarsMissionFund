@@ -33,6 +33,10 @@ It serves as the single source of truth for languages, frameworks, libraries, in
 | Technology | Version | Purpose |
 | ---------- | ------- | ------- |
 | React | 19.x | Single-page application (SPA) framework |
+| Vite | Latest stable | Build tool and dev server |
+| TanStack Query (React Query) | v5 | Server state management (data fetching, caching, mutations) |
+| React Router | v7 | Client-side routing |
+| Tailwind CSS | v4 | Utility-first CSS framework |
 | PostHog (posthog-js) | Latest stable | Feature flags, product analytics, and web analytics |
 
 ---
@@ -173,16 +177,17 @@ No external search provider is required.
 
 ## Testing
 
-| Technology | Purpose |
-| ---------- | ------- |
-| Vitest | Unit and integration test runner |
-| SuperTest | HTTP assertion library for API tests |
-| @testing-library/react | React component testing utilities |
-| Playwright | End-to-end browser tests (root `e2e/` directory) |
+| Technology | Version | Purpose |
+| ---------- | ------- | ------- |
+| Vitest | Latest stable | Unit and integration test runner |
+| SuperTest | Latest stable | HTTP assertion library for API tests |
+| @testing-library/react | Latest stable | React component testing utilities |
+| MSW (Mock Service Worker) | Latest stable | API mocking for frontend tests |
+| Playwright | Latest stable | End-to-end browser tests (root `e2e/` directory) |
 
 ### Quality Gates
 
-- Unit test coverage: 80%+ required
+- Unit test coverage: 90%+ for business logic / domain
 - Integration tests must pass
 - E2E tests must pass
 
