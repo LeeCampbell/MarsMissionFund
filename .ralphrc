@@ -1,0 +1,5 @@
+# Ralph Agent Configuration
+# Safety limits for automated pipeline runs
+
+MAX_FEATURES_PER_RUN=5
+MAX_ITERATIONS=30
