@@ -5,7 +5,7 @@
 > **Status**: Approved
 > **Rate of Change**: Monthly / standard reviews
 > **Depends On**: L1-001 (Product Vision & Mission)
-> **Depended On By**: L3-001 (tech/architecture.md), L3-002 (tech/security.md), L3-003 (tech/reliability.md), L3-004 (tech/data-management.md), L3-005 (tech/frontend.md), L3-006 (tech/audit.md), L4-004 (domain/payments.md), L4-005 (domain/kyc.md)
+> **Depended On By**: L3-001 (tech/architecture.md), L3-002 (tech/security.md), L3-003 (tech/reliability.md), L3-004 (tech/data-management.md), L3-005 (tech/frontend.md), L3-006 (tech/audit.md), L3-007 (tech/markdown.md), L3-008 (tech/tech-stack.md), L4-004 (domain/payments.md), L4-005 (domain/kyc.md)
 
 ---
 
