@@ -36,7 +36,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # ---------------------------------------------------------------------------
 # GitHub CLI (pinned .deb)
 # ---------------------------------------------------------------------------
-RUN curl -fsSL "https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_amd64.deb" \
+RUN ARCH=$(dpkg --print-architecture) \
+    && curl -fsSL "https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_${GH_VERSION}_linux_${ARCH}.deb" \
         -o /tmp/gh.deb \
     && dpkg -i /tmp/gh.deb \
     && rm /tmp/gh.deb
@@ -44,14 +45,16 @@ RUN curl -fsSL "https://github.com/cli/cli/releases/download/v${GH_VERSION}/gh_$
 # ---------------------------------------------------------------------------
 # dbmate (pinned binary)
 # ---------------------------------------------------------------------------
-RUN curl -fsSL "https://github.com/amacneil/dbmate/releases/download/v${DBMATE_VERSION}/dbmate-linux-amd64" \
+RUN ARCH=$(uname -m) && [ "$ARCH" = "aarch64" ] && ARCH="arm64" || ARCH="amd64" \
+    && curl -fsSL "https://github.com/amacneil/dbmate/releases/download/v${DBMATE_VERSION}/dbmate-linux-${ARCH}" \
         -o /usr/local/bin/dbmate \
     && chmod +x /usr/local/bin/dbmate
 
 # ---------------------------------------------------------------------------
 # gitleaks (required by prek gitleaks hook)
 # ---------------------------------------------------------------------------
-RUN curl -fsSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_amd64.tar.gz" \
+RUN ARCH=$(uname -m) && [ "$ARCH" = "aarch64" ] && ARCH="arm64" || ARCH="amd64" \
+    && curl -fsSL "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/gitleaks_${GITLEAKS_VERSION}_linux_${ARCH}.tar.gz" \
         | tar xz -C /usr/local/bin gitleaks \
     && chmod +x /usr/local/bin/gitleaks
 
