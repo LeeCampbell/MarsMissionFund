@@ -62,23 +62,37 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
      - If FAIL: re-run the failing agent with revision instructions, then re-validate
      - If PASS: update backlog status to "✅ SPECCED"
 
+5b. **Commit and push spec artifacts:**
+    Resolve the base branch (same logic as step 6 below), create the feature branch, and commit the PRDs immediately so spec work survives agent crashes:
+    - Read this feature's dependencies from `.claude/backlog.md`
+    - **If all dependencies are SHIPPED (or feature has none):** Base = `upstream/main`, `PR_TARGET = "main"`
+    - **If any dependency has an unmerged branch from this run:** Base = `PREVIOUS_FEATURE_BRANCH`, `PR_TARGET` = that branch name
+    ```bash
+    git checkout -b ralph/feat-XXX-[name] <resolved-base>
+    git add .claude/prds/feat-XXX-* .claude/backlog.md
+    git commit -m "chore: spec feat-XXX [name]"
+    git push -u origin ralph/feat-XXX-[name]
+    ```
+
 ### Phase 3: Implementation Track — Build the Feature
 
-6. **Resolve base branch and create feature branch:**
-   - Read this feature's dependencies from `.claude/backlog.md`
-   - For each dependency:
-     - If status is "SHIPPED" → already in upstream/main, skip
-     - If it was built in this pipeline run and has an unmerged branch → candidate
-   - **If all dependencies are SHIPPED (or feature has none):**
-     - Base = `upstream/main`
-     - `PR_TARGET = "main"`
-   - **If any dependency has an unmerged branch from this run:**
-     - Base = `PREVIOUS_FEATURE_BRANCH` (the last-built feature's branch, which contains all stacked work)
-     - `PR_TARGET` = that branch name
-   - Create the branch:
-     ```bash
-     git checkout -b ralph/feat-XXX-[name] <resolved-base>
-     ```
+6. **Verify feature branch (already created in step 5b):**
+   - If on a loop iteration where step 5b already created the branch, verify you are checked out to `ralph/feat-XXX-[name]`
+   - If the feature was already specced (skipped step 5), resolve the base branch and create the branch now:
+     - Read this feature's dependencies from `.claude/backlog.md`
+     - For each dependency:
+       - If status is "SHIPPED" → already in upstream/main, skip
+       - If it was built in this pipeline run and has an unmerged branch → candidate
+     - **If all dependencies are SHIPPED (or feature has none):**
+       - Base = `upstream/main`
+       - `PR_TARGET = "main"`
+     - **If any dependency has an unmerged branch from this run:**
+       - Base = `PREVIOUS_FEATURE_BRANCH` (the last-built feature's branch, which contains all stacked work)
+       - `PR_TARGET` = that branch name
+     - Create the branch:
+       ```bash
+       git checkout -b ralph/feat-XXX-[name] <resolved-base>
+       ```
 
 7. **Run Implementation agents in parallel (or sequential if dependencies exist):**
    - **Backend Engineer** (read `.claude/agents/backend-engineer.md`)
@@ -157,6 +171,35 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
     git push origin ralph/feat-XXX-[name]
     ```
 
+### Phase 4b: Screenshot Capture (after quality gate, before PR)
+
+**Skip if:** the feature spec (`feat-XXX-spec.md`) has no frontend section (Section 7) or no new/modified routes.
+
+**If the feature has frontend changes:**
+
+1. Identify affected routes from the feature spec's frontend section
+2. Ensure the app stack is running (it should be from the Playwright tester step)
+3. For each affected route:
+   ```bash
+   playwright-cli open http://localhost:5173
+   playwright-cli resize 1280 800
+   playwright-cli goto /<route>
+   # If auth required: playwright-cli state-load (use saved auth state from Playwright tester)
+   playwright-cli screenshot --filename=.claude/screenshots/feat-XXX/{route-slug}.png
+   ```
+4. Close browser: `playwright-cli close`
+5. Commit and push:
+   ```bash
+   git add .claude/screenshots/feat-XXX/
+   git commit -m "chore: add screenshots for feat-XXX"
+   git push origin ralph/feat-XXX-[name]
+   ```
+
+**Edge cases:**
+- **App won't start:** Skip screenshots, note in PR body: "Screenshots: app stack failed to start"
+- **Auth-gated pages:** Use `playwright-cli state-load` with saved auth state from Playwright tester
+- **No frontend changes:** Omit screenshots section from PR body entirely
+
 ### Phase 5: PR Gate
 
 11. **Check merge criteria — ALL must pass:**
@@ -180,6 +223,10 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
     - [2-3 bullet points of what was built]
     - **Stacked on:** <PR_TARGET> (if not main — merge parent PR first)
 
+    ## Screenshots
+    ![route-name](https://raw.githubusercontent.com/leecampbell-codeagent/MarsMissionFund/ralph/feat-XXX-name/.claude/screenshots/feat-XXX/route-slug.png)
+    [Repeat for each captured route. If no frontend changes, omit this section entirely.]
+
     ## Quality Gate
     - Tests: all passing
     - Coverage: XX%
@@ -193,6 +240,7 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
     - Audit: .claude/reports/feat-XXX-audit.md"
     ```
     - If `PR_TARGET` is `main`, omit the "Stacked on" line from the body.
+    - If the feature has **no frontend changes**, omit the `## Screenshots` section entirely.
     - After PR creation, update tracking: `PREVIOUS_FEATURE_BRANCH = "ralph/feat-XXX-[name]"`
 
 13. **If ANY fail — return to the Quality Track:**
