@@ -1,5 +1,4 @@
 -- migrate:up
-BEGIN;
 
 CREATE TABLE contributions (
   id                 UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -26,12 +25,7 @@ CREATE TRIGGER trg_contributions_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
-COMMIT;
-
 -- migrate:down
-BEGIN;
 
 DROP TRIGGER IF EXISTS trg_contributions_updated_at ON contributions;
 DROP TABLE IF EXISTS contributions;
-
-COMMIT;

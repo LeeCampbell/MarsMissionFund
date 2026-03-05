@@ -1,5 +1,4 @@
 -- migrate:up
-BEGIN;
 
 CREATE TABLE events (
   event_id         UUID         NOT NULL DEFAULT gen_random_uuid(),
@@ -39,14 +38,9 @@ CREATE TRIGGER trg_events_no_delete
   FOR EACH ROW
   EXECUTE FUNCTION prevent_events_modification();
 
-COMMIT;
-
 -- migrate:down
-BEGIN;
 
 DROP TRIGGER IF EXISTS trg_events_no_delete ON events;
 DROP TRIGGER IF EXISTS trg_events_no_update ON events;
 DROP FUNCTION IF EXISTS prevent_events_modification();
 DROP TABLE IF EXISTS events;
-
-COMMIT;
