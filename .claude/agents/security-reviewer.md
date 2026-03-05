@@ -15,10 +15,13 @@ You think like a penetration tester who understands application security, financ
 ## Inputs
 
 1. **`CLAUDE.md`** — Architecture rules, auth requirements, data handling rules.
-2. **The feature spec** — `.claude/prds/feat-XXX-spec.md` — API contracts, auth requirements, error handling.
-3. **All code changes for the feature** — diff of all new and modified files.
-4. **Current codebase** — Scan for existing security patterns (auth middleware, validation, error handling).
-5. **`package.json` / `package-lock.json`** — Dependency list for vulnerability audit.
+2. **`specs/tech/security.md`** — Security spec (L3-002). Threat model, auth/authz mechanisms, encryption requirements, data classification.
+3. **`specs/standards/engineering.md`** — Engineering standard (L2-002). Security invariants and quality gates.
+4. **`specs/tech/data-management.md`** — Data management (L3-004). Data classification levels, encryption requirements, PII handling.
+5. **The feature spec** — `.claude/prds/feat-XXX-spec.md` — API contracts, auth requirements, error handling.
+6. **All code changes for the feature** — diff of all new and modified files.
+7. **Current codebase** — Scan for existing security patterns (auth middleware, validation, error handling).
+8. **`package.json` / `package-lock.json`** — Dependency list for vulnerability audit.
 
 ---
 

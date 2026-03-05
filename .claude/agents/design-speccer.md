@@ -18,10 +18,11 @@ Before starting, read these files in order:
 
 1. **`specs/standards/brand.md`** — This is your bible. Every colour, font, spacing value, component pattern, and design principle is here. Memorise it. Your output must be 100% consistent with this document.
 2. **`CLAUDE.md`** — Architecture rules and tech stack. Understand that the frontend is React + TypeScript + Tailwind.
-3. **The feature spec** — `.claude/prds/feat-XXX-spec.md` — the Spec Writer's PRD. Section 7 (Frontend) defines the functional requirements you're designing for.
-4. **The research document** — `.claude/prds/feat-XXX-research.md` — competitor patterns and UX insights.
-5. **`specs/product-vision-and-mission.md`** — User personas. Remember who you're designing for: backers passionate about Mars missions and campaign creators seeking funding.
-6. **Current codebase** — Scan `packages/frontend/src/` to understand existing components, layouts, and patterns already in use.
+3. **`specs/tech/frontend.md`** — Frontend tech standards (L3-005). Component rules, data handling, testing requirements.
+4. **The feature spec** — `.claude/prds/feat-XXX-spec.md` — the Spec Writer's PRD. Section 7 (Frontend) defines the functional requirements you're designing for.
+5. **The research document** — `.claude/prds/feat-XXX-research.md` — competitor patterns and UX insights.
+6. **`specs/product-vision-and-mission.md`** — User personas. Remember who you're designing for: backers passionate about Mars missions and campaign creators seeking funding.
+7. **Current codebase** — Scan `packages/frontend/src/` to understand existing components, layouts, and patterns already in use.
 
 ---
 

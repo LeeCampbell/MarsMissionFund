@@ -15,12 +15,13 @@ You think like an infrastructure engineer doing a controlled cutover. The mock a
 ## Inputs
 
 1. **`CLAUDE.md`** — Architecture rules, specifically hex architecture and adapter patterns.
-2. **The completed manual task** — `.claude/manual-tasks.md` — the specific task marked as done, with all required config values.
-3. **`.claude/mock-status.md`** — Current mock vs real status for all integrations.
-4. **The mock adapter** — the file currently in use (e.g., `packages/backend/src/[context]/adapters/mock/mock-email-adapter.ts`).
-5. **The real adapter** — either already scaffolded (noted in the manual task) or needs to be created.
-6. **`.env`** — verify the required environment variables are present with real values.
-7. **Current codebase** — understand where the adapter is wired up (`packages/backend/src/app.ts`), how it's injected, and what the port interface requires.
+2. **`specs/tech/security.md`** — Security (L3-002). Credential handling, encryption, auth requirements for external services.
+3. **The completed manual task** — `.claude/manual-tasks.md` — the specific task marked as done, with all required config values.
+4. **`.claude/mock-status.md`** — Current mock vs real status for all integrations.
+5. **The mock adapter** — the file currently in use (e.g., `packages/backend/src/[context]/adapters/mock/mock-email-adapter.ts`).
+6. **The real adapter** — either already scaffolded (noted in the manual task) or needs to be created.
+7. **`.env`** — verify the required environment variables are present with real values.
+8. **Current codebase** — understand where the adapter is wired up (`packages/backend/src/app.ts`), how it's injected, and what the port interface requires.
 
 ---
 

@@ -19,6 +19,8 @@ Run this when the backlog is empty or needs regenerating from the vision.
    - Read `CLAUDE.md`
    - Read `specs/product-vision-and-mission.md`
    - Read `specs/standards/brand.md`
+   - Read `specs/README.md` — understand the full specification hierarchy
+   - Read `specs/standards/engineering.md` — understand quality gates
    - Read `.claude/backlog.md` — check current state
    - Scan `packages/` — understand what already exists
 

@@ -18,12 +18,18 @@ Before writing any code, read these files in order:
 
 1. **`CLAUDE.md`** — Architecture rules, tech stack, coding standards. Non-negotiable.
 2. **The feature spec** — `.claude/prds/feat-XXX-spec.md` — Data model, domain model, API contracts, business rules, edge cases.
-3. **`specs/tech/tech-stack.md`** — Technology choices. Express 5.x, Pino, PostgreSQL, Zod, etc.
-4. **`specs/domain/payments.md`** — Payment processing rules (escrow, disbursement, refunds).
-5. **`.claude/context/patterns.md`** — Established backend patterns in the codebase.
-6. **`.claude/context/gotchas.md`** — Known pitfalls from previous cycles.
-7. **`.claude/context/domain-knowledge.md`** — Accumulated domain knowledge.
-8. **Current codebase** — Scan `packages/backend/src/` thoroughly. Understand existing domain entities, ports, adapters, services, and API routes. Reuse before you rebuild.
+3. **`specs/standards/engineering.md`** — Engineering standard (L2-002). Security invariants, quality gates, observability.
+4. **`specs/tech/architecture.md`** — Architecture (L3-001). Hex architecture, API versioning, bounded contexts.
+5. **`specs/tech/security.md`** — Security (L3-002). Auth/authz, input validation, encryption.
+6. **`specs/tech/data-management.md`** — Data management (L3-004). Data classification, retention, encryption requirements.
+7. **`specs/tech/audit.md`** — Audit logging (L3-006). Event schema, append-only audit trail.
+8. **Relevant `specs/domain/*.md`** — Read the L4 domain spec(s) for the bounded context(s) this feature touches (not just payments).
+9. **`specs/tech/tech-stack.md`** — Technology choices. Express 5.x, Pino, PostgreSQL, Zod, etc.
+10. **`specs/domain/payments.md`** — Payment processing rules (escrow, disbursement, refunds).
+11. **`.claude/context/patterns.md`** — Established backend patterns in the codebase.
+12. **`.claude/context/gotchas.md`** — Known pitfalls from previous cycles.
+13. **`.claude/context/domain-knowledge.md`** — Accumulated domain knowledge.
+14. **Current codebase** — Scan `packages/backend/src/` thoroughly. Understand existing domain entities, ports, adapters, services, and API routes. Reuse before you rebuild.
 
 ---
 

@@ -15,10 +15,12 @@ You think like a platform engineer who values reliability, reproducibility, and 
 ## Inputs
 
 1. **`CLAUDE.md`** — Tech stack, testing requirements, git strategy.
-2. **The feature spec** — `.claude/prds/feat-XXX-spec.md` — Any new CI requirements (new environment variables, new test suites, new deploy targets).
-3. **Infrastructure Engineer's pipeline requirements** — documented in the feature's infra work.
-4. **Current CI/CD config** — `.github/workflows/`, deployment scripts, existing pipeline structure.
-5. **`.ralphrc`** — Safety limits and branch configuration.
+2. **`specs/tech/reliability.md`** — Reliability (L3-003). Health checks, deployment strategy, rollback.
+3. **`specs/standards/engineering.md`** — Engineering standard (L2-002). Quality gates for CI pipeline.
+4. **The feature spec** — `.claude/prds/feat-XXX-spec.md` — Any new CI requirements (new environment variables, new test suites, new deploy targets).
+5. **Infrastructure Engineer's pipeline requirements** — documented in the feature's infra work.
+6. **Current CI/CD config** — `.github/workflows/`, deployment scripts, existing pipeline structure.
+7. **`.ralphrc`** — Safety limits and branch configuration.
 
 ---
 

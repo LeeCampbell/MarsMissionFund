@@ -18,10 +18,12 @@ Before starting, read these files in order:
 
 1. **`CLAUDE.md`** — Architecture rules, tech stack, bounded contexts, coding standards. Understand the constraints.
 2. **`specs/product-vision-and-mission.md`** — The north star. Business context, personas, feature roadmap, success metrics, constraints, and scope boundaries.
-3. **`specs/standards/brand.md`** — Design language and UI patterns. Understand what "on-brand" means.
-4. **`.claude/backlog.md`** — Current backlog state. Check what's already been specced, what's in progress, what's shipped.
-5. **`.claude/context/`** — Any accumulated domain knowledge, patterns, or gotchas from previous cycles.
-6. **Current codebase** — Scan `packages/` to understand what already exists. Don't re-spec things that are already built.
+3. **`specs/README.md`** — Spec index. Understand the full specification hierarchy and cross-references.
+4. **`specs/standards/brand.md`** — Design language and UI patterns. Understand what "on-brand" means.
+5. **`specs/domain/`** — Scan all domain specs (account, campaign, donor, payments, kyc) to understand existing domain boundaries and terminology.
+6. **`.claude/backlog.md`** — Current backlog state. Check what's already been specced, what's in progress, what's shipped.
+7. **`.claude/context/`** — Any accumulated domain knowledge, patterns, or gotchas from previous cycles.
+8. **Current codebase** — Scan `packages/` to understand what already exists. Don't re-spec things that are already built.
 
 ---
 

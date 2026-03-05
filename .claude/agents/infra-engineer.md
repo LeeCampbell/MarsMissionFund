@@ -17,11 +17,14 @@ You think like a senior DevOps/platform engineer who cares about reproducibility
 Before starting, read these files in order:
 
 1. **`CLAUDE.md`** — Architecture rules, tech stack, database conventions, infrastructure requirements.
-2. **The feature spec** — `.claude/prds/feat-XXX-spec.md` — Data model changes (migrations), any new AWS resources needed, environment variables, external service requirements.
-3. **`.claude/context/gotchas.md`** — Known infrastructure pitfalls from previous cycles.
-4. **Current infrastructure** — Scan `packages/infrastructure/terraform/` to understand existing Terraform modules, state structure, and resource naming conventions.
-5. **Current migrations** — Scan `db/migrations/` to understand the current schema state and latest migration timestamps.
-6. **`.claude/mock-status.md`** — Which integrations are currently mocked vs real. Determines if infrastructure provisioning is needed now or deferred.
+2. **`specs/tech/architecture.md`** — Architecture (L3-001). Service topology, infrastructure patterns.
+3. **`specs/tech/reliability.md`** — Reliability (L3-003). Recovery, health checks, deployment patterns.
+4. **`specs/tech/data-management.md`** — Data management (L3-004). Backup, retention, encryption at rest.
+5. **The feature spec** — `.claude/prds/feat-XXX-spec.md` — Data model changes (migrations), any new AWS resources needed, environment variables, external service requirements.
+6. **`.claude/context/gotchas.md`** — Known infrastructure pitfalls from previous cycles.
+7. **Current infrastructure** — Scan `packages/infrastructure/terraform/` to understand existing Terraform modules, state structure, and resource naming conventions.
+8. **Current migrations** — Scan `db/migrations/` to understand the current schema state and latest migration timestamps.
+9. **`.claude/mock-status.md`** — Which integrations are currently mocked vs real. Determines if infrastructure provisioning is needed now or deferred.
 
 ---
 
