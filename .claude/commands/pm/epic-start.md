@@ -66,11 +66,12 @@ Only runs if the feature is not yet specced.
    - Update backlog with "❌ BLOCKED — spec validation failed"
    - Exit with report
 7. Update backlog to "✅ SPECCED"
-8. Commit and push:
+8. Create feature branch and commit spec artifacts (using `BASE_BRANCH` resolved in step 1b):
    ```bash
-   git add .claude/prds/
+   git checkout -b ralph/feat-XXX-[name] <BASE_BRANCH>
+   git add .claude/prds/feat-XXX-* .claude/backlog.md
    git commit -m "chore: spec feat-XXX [name]"
-   git push origin HEAD
+   git push -u origin ralph/feat-XXX-[name]
    ```
 
 ### 3. Pre-Implementation Setup
@@ -86,11 +87,13 @@ Only runs if the feature is not yet specced.
    - `.claude/context/patterns.md` — established code patterns to follow
    - `.claude/context/gotchas.md` — known pitfalls to avoid
 
-3. **Create feature branch** (using `BASE_BRANCH` and `PR_TARGET` resolved in step 1b):
-   ```bash
-   git fetch upstream main
-   git checkout -b ralph/feat-XXX-[name] <BASE_BRANCH>
-   ```
+3. **Verify feature branch** (already created in step 2.8, or handle `--skip-spec`):
+   - If coming from step 2.8: branch `ralph/feat-XXX-[name]` already exists and is checked out
+   - If `--skip-spec` was used (skipped step 2): create the branch now:
+     ```bash
+     git fetch upstream main
+     git checkout -b ralph/feat-XXX-[name] <BASE_BRANCH>
+     ```
 
 4. **Update backlog:**
    - Mark feature as "🔨 BUILDING" in `.claude/backlog.md`
@@ -187,6 +190,35 @@ git commit -m "test([context]): quality gate for feat-XXX [name]"
 git push origin ralph/feat-XXX-[name]
 ```
 
+### 5b. Screenshot Capture (after quality gate, before PR)
+
+**Skip if:** the feature spec (`feat-XXX-spec.md`) has no frontend section (Section 7) or no new/modified routes.
+
+**If the feature has frontend changes:**
+
+1. Identify affected routes from the feature spec's frontend section
+2. Ensure the app stack is running (it should be from the Playwright tester step)
+3. For each affected route:
+   ```bash
+   playwright-cli open http://localhost:5173
+   playwright-cli resize 1280 800
+   playwright-cli goto /<route>
+   # If auth required: playwright-cli state-load (use saved auth state from Playwright tester)
+   playwright-cli screenshot --filename=.claude/screenshots/feat-XXX/{route-slug}.png
+   ```
+4. Close browser: `playwright-cli close`
+5. Commit and push:
+   ```bash
+   git add .claude/screenshots/feat-XXX/
+   git commit -m "chore: add screenshots for feat-XXX"
+   git push origin ralph/feat-XXX-[name]
+   ```
+
+**Edge cases:**
+- **App won't start:** Skip screenshots, note in PR body: "Screenshots: app stack failed to start"
+- **Auth-gated pages:** Use `playwright-cli state-load` with saved auth state from Playwright tester
+- **No frontend changes:** Omit screenshots section from PR body entirely
+
 ### 6. Fix Loop (if quality gate fails)
 
 If any quality agent reports failures:
@@ -226,6 +258,10 @@ All quality checks passed. Create a PR for review.
    - [2-3 bullet points of what was built]
    - **Stacked on:** <PR_TARGET> (if not main — merge parent PR first)
 
+   ## Screenshots
+   ![route-name](https://raw.githubusercontent.com/leecampbell-codeagent/MarsMissionFund/ralph/feat-XXX-name/.claude/screenshots/feat-XXX/route-slug.png)
+   [Repeat for each captured route. If no frontend changes, omit this section entirely.]
+
    ## Quality Gate
    - Tests: all passing
    - Coverage: XX%
@@ -239,6 +275,7 @@ All quality checks passed. Create a PR for review.
    - Audit: .claude/reports/feat-XXX-audit.md"
    ```
    - If `PR_TARGET` is `main`, omit the "Stacked on" line from the body.
+   - If the feature has **no frontend changes**, omit the `## Screenshots` section entirely.
 
 ### 8. Post-PR
 
