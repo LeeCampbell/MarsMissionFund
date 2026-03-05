@@ -32,6 +32,9 @@ test-results/
 !*.tfvars.example
 .terraform.lock.hcl
 
+# Pre-commit config — copied into workspace at runtime by autonomous agent (autonomous/scripts/agent-entrypoint.sh)
+.pre-commit-config.yaml
+
 # IDE
 .vscode/
 !.vscode/extensions.json

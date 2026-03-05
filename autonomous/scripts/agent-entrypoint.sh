@@ -82,7 +82,6 @@ fi
 STEP="prek"
 echo "Installing prek pre-commit hooks..."
 cp /opt/agent/scripts/.pre-commit-config.yaml /workspace/.pre-commit-config.yaml
-git update-index --skip-worktree .pre-commit-config.yaml
 prek install
 
 # ---------------------------------------------------------------------------
