@@ -58,9 +58,8 @@ Read `.claude/agents/integration-engineer.md` and execute the swap:
 
 1. **Create feature branch:**
    ```bash
-   git checkout main
-   git pull origin main
-   git checkout -b ralph/integrate-[service-name] main
+   git fetch upstream main
+   git checkout -b ralph/integrate-[service-name] upstream/main
    ```
 
 2. **Implement real adapter** (if not already scaffolded):
@@ -119,7 +118,7 @@ Read `.claude/agents/integration-engineer.md` and execute the swap:
    - Fill in the real adapter file path
    - Reference the completed manual task
 
-### 6. Commit and Merge
+### 6. Commit and Create PR
 
 1. **Commit:**
    ```bash
@@ -130,18 +129,10 @@ Read `.claude/agents/integration-engineer.md` and execute the swap:
    - Integration tests verify real connectivity
    - Mock adapter retained for test suite
    - Closes manual task #N"
+   git push -u origin ralph/integrate-[service-name]
    ```
 
-2. **Merge to main:**
-   ```bash
-   git checkout main
-   git pull origin main
-   git merge ralph/integrate-[service-name] --no-ff -m "Merge integration: real [service] adapter"
-   git branch -d ralph/integrate-[service-name]
-   git push origin main
-   ```
-
-3. **Write integration report:**
+2. **Write integration report:**
    Create `.claude/reports/integrate-[service]-report.md`:
    ```markdown
    # Integration Report: [Service Name]
@@ -169,11 +160,28 @@ Read `.claude/agents/integration-engineer.md` and execute the swap:
    - `[VAR_NAME]` — configured ✅
    ```
 
-4. **Commit report:**
+3. **Commit report and push:**
    ```bash
    git add .claude/reports/
    git commit -m "chore: integration report for [service]"
-   git push origin main
+   git push origin ralph/integrate-[service-name]
+   ```
+
+4. **Create PR to upstream:**
+   ```bash
+   gh pr create \
+     --repo "${UPSTREAM_REPO}" \
+     --head "leecampbell-codeagent:ralph/integrate-[service-name]" \
+     --base main \
+     --title "integrate: real [service] adapter" \
+     --body "## Summary
+   - Swaps mock-[service]-adapter for real [service]-adapter
+   - Integration tests verify real connectivity
+   - Mock adapter retained for test suite
+   - Closes manual task #N
+
+   ## Reports
+   - Integration: .claude/reports/integrate-[service]-report.md"
    ```
 
 ### 7. Report

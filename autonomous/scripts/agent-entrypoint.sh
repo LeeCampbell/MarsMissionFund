@@ -35,6 +35,17 @@ echo "Cloning ${REPO_URL} (branch: ${BASE_BRANCH:-main})..."
 gh repo clone "${REPO_URL}" . -- --branch "${BASE_BRANCH:-main}"
 
 # ---------------------------------------------------------------------------
+# Step 1b: Configure remotes
+# ---------------------------------------------------------------------------
+STEP="remotes"
+UPSTREAM_REPO="${UPSTREAM_REPO:-}"
+if [ -n "${UPSTREAM_REPO}" ]; then
+    echo "Adding upstream remote: ${UPSTREAM_REPO}..."
+    git remote add upstream "https://github.com/${UPSTREAM_REPO}.git"
+    git fetch upstream main
+fi
+
+# ---------------------------------------------------------------------------
 # Step 2: Install dependencies
 # ---------------------------------------------------------------------------
 STEP="npm_install"
@@ -91,6 +102,7 @@ fi
 STEP="branch"
 BRANCH_NAME="agent/$(date +%Y%m%d-%H%M%S)"
 git checkout -b "${BRANCH_NAME}"
+git push -u origin "${BRANCH_NAME}"
 echo "Working on branch: ${BRANCH_NAME}"
 
 # ---------------------------------------------------------------------------

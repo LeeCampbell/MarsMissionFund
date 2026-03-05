@@ -49,10 +49,11 @@ Only runs if the feature is not yet specced.
    - Update backlog with "❌ BLOCKED — spec validation failed"
    - Exit with report
 7. Update backlog to "✅ SPECCED"
-8. Commit:
+8. Commit and push:
    ```bash
    git add .claude/prds/
    git commit -m "chore: spec feat-XXX [name]"
+   git push origin HEAD
    ```
 
 ### 3. Pre-Implementation Setup
@@ -70,9 +71,8 @@ Only runs if the feature is not yet specced.
 
 3. **Create feature branch:**
    ```bash
-   git checkout main
-   git pull origin main
-   git checkout -b ralph/feat-XXX-[name] main
+   git fetch upstream main
+   git checkout -b ralph/feat-XXX-[name] upstream/main
    ```
 
 4. **Update backlog:**
@@ -123,6 +123,7 @@ git commit -m "feat([context]): implement feat-XXX [name]
 - [Summary of backend changes]
 - [Summary of frontend changes]
 - [Summary of infra changes]"
+git push -u origin ralph/feat-XXX-[name]
 ```
 
 ### 5. Quality Gate
@@ -166,6 +167,7 @@ Run quality agents against the implementation.
 ```bash
 git add .
 git commit -m "test([context]): quality gate for feat-XXX [name]"
+git push origin ralph/feat-XXX-[name]
 ```
 
 ### 6. Fix Loop (if quality gate fails)
@@ -184,9 +186,9 @@ If any quality agent reports failures:
    - Leave the branch as-is (don't merge)
    - Exit with report
 
-### 7. Merge to Main
+### 7. Create PR to Upstream
 
-All quality checks passed. Merge the feature.
+All quality checks passed. Create a PR for review.
 
 1. **Final verification:**
    ```bash
@@ -195,29 +197,31 @@ All quality checks passed. Merge the feature.
    npx playwright test
    ```
 
-2. **Merge:**
+2. **Push and create PR:**
    ```bash
-   git checkout main
-   git pull origin main
-   git merge ralph/feat-XXX-[name] --no-ff -m "Merge feat-XXX: [name]
+   git push origin ralph/feat-XXX-[name]
+   gh pr create \
+     --repo "${UPSTREAM_REPO}" \
+     --head "leecampbell-codeagent:ralph/feat-XXX-[name]" \
+     --base main \
+     --title "feat-XXX: [name]" \
+     --body "## Summary
+   - [2-3 bullet points of what was built]
 
-   Acceptance criteria: all passing
-   Test coverage: XX%
-   Security: 0 critical findings
-   Audit: PASS"
+   ## Quality Gate
+   - Tests: all passing
+   - Coverage: XX%
+   - Security: 0 critical/high findings
+   - Audit: PASS
+   - E2E: PASS
+
+   ## Reports
+   - Exploratory: .claude/reports/feat-XXX-exploratory.md
+   - Security: .claude/reports/feat-XXX-security.md
+   - Audit: .claude/reports/feat-XXX-audit.md"
    ```
 
-3. **Clean up:**
-   ```bash
-   git branch -d ralph/feat-XXX-[name]
-   ```
-
-4. **Push:**
-   ```bash
-   git push origin main
-   ```
-
-### 8. Post-Merge
+### 8. Post-PR
 
 1. **Update backlog:**
    - Mark feature as "✅ SHIPPED" in `.claude/backlog.md`
@@ -228,7 +232,7 @@ All quality checks passed. Merge the feature.
    # Merge Report: feat-XXX — [Name]
 
    ## Shipped: [timestamp]
-   ## Branch: ralph/feat-XXX-[name] → main
+   ## Branch: ralph/feat-XXX-[name] → PR to upstream/main
 
    ## Summary
    [2-3 sentences: what was built]
@@ -259,14 +263,14 @@ All quality checks passed. Merge the feature.
    - Add any pitfalls discovered to `.claude/context/gotchas.md`
    - Add agent learnings to `AGENTS.md`
 
-4. **Commit knowledge updates:**
+4. **Commit and push knowledge updates to the feature branch:**
    ```bash
    git add .claude/ AGENTS.md
    git commit -m "chore: update knowledge base after feat-XXX"
-   git push origin main
+   git push origin ralph/feat-XXX-[name]
    ```
 
 5. **Report:**
-   - Print merge summary
+   - Print PR URL
    - Print any manual tasks that need human attention
    - Print backlog status (what's next)
