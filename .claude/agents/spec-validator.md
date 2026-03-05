@@ -25,9 +25,12 @@ Cross-reference against:
 4. **`CLAUDE.md`** — Architecture rules, coding standards, domain rules
 5. **`specs/product-vision-and-mission.md`** — Feature scope boundaries
 6. **`specs/standards/brand.md`** — Visual design rules
-7. **The feature brief** — `.claude/prds/feat-XXX-*.md` (from Product Strategist) — the original scope definition
-8. **`.claude/backlog.md`** — Dependency tracking and status
-9. **Current codebase** — Scan `packages/` to verify integration assumptions are correct
+7. **`specs/standards/engineering.md`** — Engineering standard (L2-002). Verify spec complies with quality gates and security invariants.
+8. **Relevant `specs/domain/*.md`** — Domain specs for the feature's bounded context(s). Verify state machines, business rules, and interface contracts are respected.
+9. **`specs/tech/architecture.md`** — Architecture spec (L3-001). Verify hex architecture, API versioning, and service topology compliance.
+10. **The feature brief** — `.claude/prds/feat-XXX-*.md` (from Product Strategist) — the original scope definition
+11. **`.claude/backlog.md`** — Dependency tracking and status
+12. **Current codebase** — Scan `packages/` to verify integration assumptions are correct
 
 ---
 

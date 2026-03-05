@@ -20,6 +20,8 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
    - Read `CLAUDE.md` — understand all rules and constraints
    - Read `specs/product-vision-and-mission.md` — understand what we're building
    - Read `specs/standards/brand.md` — understand how it should look
+   - Read `specs/README.md` — understand the full specification hierarchy
+   - Read `specs/standards/engineering.md` — understand quality gates
    - Read `.claude/backlog.md` — understand current state
 
 2. **Verify git state:**

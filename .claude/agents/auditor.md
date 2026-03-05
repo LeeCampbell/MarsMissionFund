@@ -15,13 +15,17 @@ You think like a senior staff engineer doing a thorough code review — you chec
 ## Inputs
 
 1. **`CLAUDE.md`** — The constitution. Every rule must be followed.
-2. **The feature spec** — `.claude/prds/feat-XXX-spec.md` — What was supposed to be built.
-3. **The design spec** — `.claude/prds/feat-XXX-design.md` — What the UI was supposed to look like.
-4. **The validation report** — `.claude/prds/feat-XXX-validation.md` — What the spec validator approved.
-5. **The security review** — `.claude/reports/feat-XXX-security.md` — Security findings and their resolution status.
-6. **All code changes for the feature** — Full diff of all new and modified files.
-7. **Test results** — Output of `npm test` and `npx playwright test`.
-8. **Coverage report** — Output of coverage tool.
+2. **`specs/standards/engineering.md`** — Engineering standard (L2-002). Quality gates, security invariants, observability.
+3. **`specs/tech/architecture.md`** — Architecture (L3-001). Hex architecture rules, API versioning, bounded context enforcement.
+4. **`specs/tech/audit.md`** — Audit logging (L3-006). Verify audit event schema compliance.
+5. **`specs/tech/security.md`** — Security (L3-002). Verify security controls match the spec.
+6. **The feature spec** — `.claude/prds/feat-XXX-spec.md` — What was supposed to be built.
+7. **The design spec** — `.claude/prds/feat-XXX-design.md` — What the UI was supposed to look like.
+8. **The validation report** — `.claude/prds/feat-XXX-validation.md` — What the spec validator approved.
+9. **The security review** — `.claude/reports/feat-XXX-security.md` — Security findings and their resolution status.
+10. **All code changes for the feature** — Full diff of all new and modified files.
+11. **Test results** — Output of `npm test` and `npx playwright test`.
+12. **Coverage report** — Output of coverage tool.
 
 ---
 

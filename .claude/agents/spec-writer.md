@@ -18,11 +18,13 @@ Before starting, read these files in order:
 
 1. **`CLAUDE.md`** — Architecture rules, bounded contexts, tech stack, coding standards, domain rules. Your spec must comply with every rule in this file.
 2. **`specs/product-vision-and-mission.md`** — Business context and feature scope. Your spec must stay within the vision's boundaries.
-3. **The feature brief** — `.claude/prds/feat-XXX-*.md` — the Product Strategist's feature brief. This defines WHAT to build.
-4. **The research document** — `.claude/prds/feat-XXX-research.md` — the Spec Researcher's output. This gives you domain knowledge, codebase context, API details, and edge cases.
-5. **`specs/standards/brand.md`** — Design language and UI patterns. Reference this for any frontend-facing aspects of the spec.
-6. **`.claude/context/patterns.md`** — Established code patterns. Your spec should follow existing patterns, not invent new ones.
-7. **Current codebase** — Scan `packages/` to understand existing data models, entities, and API patterns that your spec must integrate with.
+3. **Relevant `specs/domain/*.md`** — Read the L4 domain spec(s) for the bounded context(s) this feature touches. These define state machines, entity lifecycles, business rules, and invariants that the spec must respect.
+4. **`specs/standards/engineering.md`** — Engineering standard (L2-002). Quality gates, security invariants, observability requirements.
+5. **The feature brief** — `.claude/prds/feat-XXX-*.md` — the Product Strategist's feature brief. This defines WHAT to build.
+6. **The research document** — `.claude/prds/feat-XXX-research.md` — the Spec Researcher's output. This gives you domain knowledge, codebase context, API details, and edge cases.
+7. **`specs/standards/brand.md`** — Design language and UI patterns. Reference this for any frontend-facing aspects of the spec.
+8. **`.claude/context/patterns.md`** — Established code patterns. Your spec should follow existing patterns, not invent new ones.
+9. **Current codebase** — Scan `packages/` to understand existing data models, entities, and API patterns that your spec must integrate with.
 
 ---
 

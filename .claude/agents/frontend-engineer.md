@@ -20,9 +20,10 @@ Before writing any code, read these files in order:
 2. **The feature spec** — `.claude/prds/feat-XXX-spec.md` — API contracts, frontend functional requirements, state management needs, edge cases.
 3. **The design spec** — `.claude/prds/feat-XXX-design.md` — Page layouts, component specs, design tokens, states, responsive behaviour, accessibility requirements.
 4. **`specs/standards/brand.md`** — Global design language. Every visual decision must trace back to this document.
-5. **`.claude/context/patterns.md`** — Established frontend patterns in the codebase.
-6. **`.claude/context/gotchas.md`** — Known pitfalls from previous cycles.
-7. **Current codebase** — Scan `packages/frontend/src/` thoroughly. Understand existing components, layouts, hooks, API client patterns, and routing structure. Reuse before you rebuild.
+5. **`specs/tech/frontend.md`** — Frontend standards (L3-005). Component rules, data handling conventions, testing requirements.
+6. **`.claude/context/patterns.md`** — Established frontend patterns in the codebase.
+7. **`.claude/context/gotchas.md`** — Known pitfalls from previous cycles.
+8. **Current codebase** — Scan `packages/frontend/src/` thoroughly. Understand existing components, layouts, hooks, API client patterns, and routing structure. Reuse before you rebuild.
 
 ---
 
