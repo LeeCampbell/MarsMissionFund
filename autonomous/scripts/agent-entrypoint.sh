@@ -17,6 +17,11 @@ cleanup() {
     end_time=$(date +%s)
     local duration=$(( end_time - START_TIME ))
 
+    # Kill background dev stack processes
+    if [ -n "${DEV_PID:-}" ]; then
+        kill "${DEV_PID}" 2>/dev/null || true
+    fi
+
     echo "{\"event\":\"agent_exit\",\"exit_code\":${exit_code},\"failed_step\":\"${STEP}\",\"duration_seconds\":${duration},\"timestamp\":\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"}"
     exit "${exit_code}"
 }
@@ -77,6 +82,7 @@ fi
 STEP="prek"
 echo "Installing prek pre-commit hooks..."
 cp /opt/agent/scripts/.pre-commit-config.yaml /workspace/.pre-commit-config.yaml
+git update-index --skip-worktree .pre-commit-config.yaml
 prek install
 
 # ---------------------------------------------------------------------------
@@ -105,6 +111,29 @@ if [ -d db/migrations ]; then
     /opt/agent/scripts/reset-db.sh
 else
     echo "No migrations found, skipping database reset."
+fi
+
+# ---------------------------------------------------------------------------
+# Step 4b: Start dev stack in background (for Playwright/E2E)
+# ---------------------------------------------------------------------------
+STEP="dev_stack"
+DEV_PID=""
+if [ -f package.json ]; then
+    echo "Starting dev stack in background..."
+    npm run dev &
+    DEV_PID=$!
+    # Wait for frontend to be ready (vite dev server)
+    for i in $(seq 1 30); do
+        curl -sf http://localhost:5173 > /dev/null 2>&1 && break
+        sleep 2
+    done
+    if curl -sf http://localhost:5173 > /dev/null 2>&1; then
+        echo "Dev stack ready."
+    else
+        echo "Warning: dev stack not responding after 60s, continuing anyway."
+    fi
+else
+    echo "No package.json found, skipping dev stack."
 fi
 
 # ---------------------------------------------------------------------------

@@ -405,6 +405,7 @@ Write the complete PRD to `.claude/prds/feat-XXX-spec.md`:
 - **Don't write implementation code.** Pseudocode and type signatures are fine. Full implementations are not.
 - **Don't leave edge cases as TBD.** Every edge case from the research document must have a defined behaviour.
 - **Don't specify Phase 2 features.** If a feature brief references future future scope, note it as "out of scope — mock adapter for now."
+- **Don't write oversized spec files.** Keep individual spec files under 800 lines / 20KB. If a spec exceeds this, split into sub-files: `feat-XXX-spec-data.md` (data model + domain), `feat-XXX-spec-api.md` (ports + application + API), `feat-XXX-spec-ui.md` (frontend + testing). Index the sub-files from the main `feat-XXX-spec.md` with one-line summaries.
 
 ---
 
