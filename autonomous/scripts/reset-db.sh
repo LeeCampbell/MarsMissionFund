@@ -33,20 +33,21 @@ echo "Creating database ${DB_NAME}..."
 psql -h "${DB_HOST}" -p "${DB_PORT}" -U "${DB_USER}" -d postgres \
     -c "CREATE DATABASE ${DB_NAME};"
 
-# Apply migrations with retry logic
+# Apply migrations (only if migration files exist)
+MIGRATIONS_DIR="${DBMATE_MIGRATIONS_DIR:-db/migrations}"
+if [ ! -d "${MIGRATIONS_DIR}" ] || [ -z "$(ls -A "${MIGRATIONS_DIR}" 2>/dev/null)" ]; then
+    echo "No migration files found in ${MIGRATIONS_DIR}, skipping dbmate."
+    echo "Database reset complete (empty database)."
+    exit 0
+fi
+
 MAX_ATTEMPTS=3
 BACKOFF_SECONDS=(0 5 15)
 
 for attempt in $(seq 1 "${MAX_ATTEMPTS}"); do
     echo "Running dbmate migrations (attempt ${attempt}/${MAX_ATTEMPTS})..."
 
-    DBMATE_ARGS="--url ${DB_URL} up"
-    if [ "${attempt}" -ge 2 ]; then
-        echo "Using --no-tx-wrap fallback (handles double-transaction issues)..."
-        DBMATE_ARGS="--url ${DB_URL} --no-tx-wrap up"
-    fi
-
-    if dbmate ${DBMATE_ARGS} 2>&1; then
+    if dbmate --url "${DB_URL}" up 2>&1; then
         echo "Database reset complete."
         exit 0
     fi
