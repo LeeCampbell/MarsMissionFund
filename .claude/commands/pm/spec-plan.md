@@ -36,10 +36,11 @@ Run this when the backlog is empty or needs regenerating from the vision.
    - If PASS: update backlog to "✅ SPECCED"
    - If FAIL: re-run failing agent, re-validate
 
-4. **Commit:**
+4. **Commit and push:**
    ```bash
    git add .claude/
    git commit -m "chore: spec track — populated backlog and specced [N] features"
+   git push origin HEAD
    ```
 
 5. **Report:**
@@ -66,10 +67,11 @@ Run this to spec the next unspecced feature in the backlog.
    - If PASS: update to "✅ SPECCED"
    - If FAIL: re-run, re-validate
 
-4. **Commit:**
+4. **Commit and push:**
    ```bash
    git add .claude/
    git commit -m "chore: spec track — specced feat-XXX [name]"
+   git push origin HEAD
    ```
 
 5. **Report:**

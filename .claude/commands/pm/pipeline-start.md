@@ -23,10 +23,13 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
    - Read `.claude/backlog.md` — understand current state
 
 2. **Verify git state:**
-   - Confirm you're on the `main` branch
-   - Confirm main is up to date with origin
    - Confirm no uncommitted changes
-   - If not on main: `git checkout main`
+   - Sync main with upstream:
+     ```bash
+     git fetch upstream main
+     git checkout main
+     git reset --hard upstream/main
+     ```
 
 3. **Check safety limits:**
    - Read `.ralphrc` for `MAX_FEATURES_PER_RUN` (default: 5)
@@ -62,7 +65,7 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
 
 6. **Create a feature branch:**
    ```bash
-   git checkout -b ralph/feat-XXX-[name] main
+   git checkout -b ralph/feat-XXX-[name] upstream/main
    ```
 
 7. **Run Implementation agents in parallel (or sequential if dependencies exist):**
@@ -77,12 +80,13 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
      - Document manual tasks in `.claude/manual-tasks.md`
      - Update `.claude/mock-status.md`
 
-8. **After implementation, commit:**
+8. **After implementation, commit and push:**
    ```bash
    npm test
    npm run build
    git add .
    git commit -m "feat([context]): [description]"
+   git push -u origin ralph/feat-XXX-[name]
    ```
 
 ### Phase 4: Quality Track — Validate the Feature
@@ -134,13 +138,14 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
      - **⟳ RESTART the Quality Loop from step 9a**
    - If all checks pass → Quality Track complete, proceed to step 10
 
-10. **Commit quality artifacts (only after all four quality agents pass in the same loop iteration):**
+10. **Commit and push quality artifacts (only after all four quality agents pass in the same loop iteration):**
     ```bash
     git add .
     git commit -m "test([context]): add quality reports for feat-XXX"
+    git push origin ralph/feat-XXX-[name]
     ```
 
-### Phase 5: Merge Gate
+### Phase 5: PR Gate
 
 11. **Check merge criteria — ALL must pass:**
     - [ ] All unit tests pass (`npm test`)
@@ -150,30 +155,52 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
     - [ ] Hex architecture compliance verified
     - [ ] No TODO/FIXME in new code
     - [ ] Build succeeds (`npm run build`)
-    - [ ] No merge conflicts with main HEAD
 
-12. **If ALL pass — merge to main:**
+12. **If ALL pass — create a PR to upstream:**
     ```bash
-    git checkout main
-    git merge ralph/feat-XXX-[name] --no-ff -m "Merge feat-XXX: [name]"
-    git branch -d ralph/feat-XXX-[name]
+    git push origin ralph/feat-XXX-[name]
+    gh pr create \
+      --repo "${UPSTREAM_REPO}" \
+      --head "leecampbell-codeagent:ralph/feat-XXX-[name]" \
+      --base main \
+      --title "feat-XXX: [name]" \
+      --body "## Summary
+    - [2-3 bullet points of what was built]
+
+    ## Quality Gate
+    - Tests: all passing
+    - Coverage: XX%
+    - Security: 0 critical/high findings
+    - Audit: PASS
+    - E2E: PASS
+
+    ## Reports
+    - Exploratory: .claude/reports/feat-XXX-exploratory.md
+    - Security: .claude/reports/feat-XXX-security.md
+    - Audit: .claude/reports/feat-XXX-audit.md"
     ```
 
 13. **If ANY fail — return to the Quality Track:**
     - Identify which criterion failed
     - Re-dispatch the relevant engineer with the exact failure details
-    - After the fix: run `npm test && npm run build`, commit the fix
+    - After the fix: run `npm test && npm run build`, commit and push the fix
     - Increment `quality_iterations`
     - **⟳ Return to step 9a** — run the entire Quality Track again (Playwright → Security → Auditor → CI/CD) before re-checking merge criteria
     - If `quality_iterations >= MAX_ITERATIONS`: write blocking report, mark feature `⛔ BLOCKED`, move to next feature
 
-14. **Write merge report:**
+14. **Write merge report and push:**
     - Create `.claude/reports/feat-XXX-merge.md` with:
       - Test results summary
       - Coverage stats
       - Security audit summary
       - Changelog entry
       - Manual tasks created (if any)
+    - Commit and push to the feature branch:
+      ```bash
+      git add .claude/reports/feat-XXX-merge.md
+      git commit -m "chore: add merge report for feat-XXX"
+      git push origin ralph/feat-XXX-[name]
+      ```
 
 15. **Update backlog:**
     - Mark feature as "✅ SHIPPED" in `.claude/backlog.md`
@@ -191,26 +218,28 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
     - Update `.claude/context/patterns.md` with any new patterns established
     - Update `.claude/context/gotchas.md` with any pitfalls discovered
     - Update `AGENTS.md` with learnings from this cycle
-    - Commit knowledge updates:
+    - Commit and push knowledge updates to the current feature branch:
       ```bash
       git add .claude/context/ AGENTS.md
       git commit -m "chore: update knowledge base after feat-XXX"
+      git push origin ralph/feat-XXX-[name]
       ```
 
 ### On Completion
 
 When the pipeline stops (max features, empty backlog, or safety limit):
 
-1. Ensure all changes are committed and pushed to main
+1. Ensure all changes are committed and pushed to their feature branches
 2. Write a pipeline summary to `.claude/reports/pipeline-run-[date].md`:
-   - Features shipped (list with links to merge reports)
+   - Features shipped (list with links to PRs and merge reports)
    - Features specced but not yet built
    - Manual tasks waiting for human
    - Total test count and coverage
    - Any issues or blockers encountered
-3. Commit the summary:
+3. Commit the summary to a chore branch and push:
    ```bash
-   git add .
+   git checkout -b ralph/chore/pipeline-summary-[date] upstream/main
+   git add .claude/reports/pipeline-run-[date].md
    git commit -m "chore: pipeline run complete — [N] features shipped"
-   git push origin main
+   git push -u origin ralph/chore/pipeline-summary-[date]
    ```
