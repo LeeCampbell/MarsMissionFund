@@ -1,5 +1,4 @@
 -- migrate:up
-BEGIN;
 
 CREATE TABLE kyc_verifications (
   id                  UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -31,12 +30,7 @@ CREATE TRIGGER trg_kyc_verifications_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
-COMMIT;
-
 -- migrate:down
-BEGIN;
 
 DROP TRIGGER IF EXISTS trg_kyc_verifications_updated_at ON kyc_verifications;
 DROP TABLE IF EXISTS kyc_verifications;
-
-COMMIT;

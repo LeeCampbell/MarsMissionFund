@@ -1,5 +1,4 @@
 -- migrate:up
-BEGIN;
 
 CREATE TABLE escrow_ledger (
   id               UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -37,14 +36,9 @@ CREATE TRIGGER trg_escrow_ledger_no_delete
   FOR EACH ROW
   EXECUTE FUNCTION prevent_escrow_ledger_modification();
 
-COMMIT;
-
 -- migrate:down
-BEGIN;
 
 DROP TRIGGER IF EXISTS trg_escrow_ledger_no_delete ON escrow_ledger;
 DROP TRIGGER IF EXISTS trg_escrow_ledger_no_update ON escrow_ledger;
 DROP FUNCTION IF EXISTS prevent_escrow_ledger_modification();
 DROP TABLE IF EXISTS escrow_ledger;
-
-COMMIT;

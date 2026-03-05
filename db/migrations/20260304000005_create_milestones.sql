@@ -1,5 +1,4 @@
 -- migrate:up
-BEGIN;
 
 CREATE TABLE milestones (
   id                     UUID         PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -28,12 +27,7 @@ CREATE TRIGGER trg_milestones_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
-COMMIT;
-
 -- migrate:down
-BEGIN;
 
 DROP TRIGGER IF EXISTS trg_milestones_updated_at ON milestones;
 DROP TABLE IF EXISTS milestones;
-
-COMMIT;
