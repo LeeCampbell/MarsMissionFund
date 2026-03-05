@@ -52,6 +52,8 @@ if [ -n "${UPSTREAM_REPO}" ]; then
         git remote add upstream "https://github.com/${UPSTREAM_REPO}.git"
     fi
     git fetch upstream main
+    echo "Resetting local main to upstream/main..."
+    git reset --hard upstream/main
 fi
 
 # ---------------------------------------------------------------------------
