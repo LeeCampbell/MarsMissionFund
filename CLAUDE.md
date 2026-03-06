@@ -13,18 +13,18 @@ Before implementing any feature, consult the specifications in [specs/README.md]
 
 ## Development Environment
 
-The local dev environment requires PostgreSQL running and accessible. All other external services (Stripe, Clerk, Veriff, AWS SES) are mocked — see `.env.example` for configuration.
+PostgreSQL must be running and accessible via `DATABASE_URL` (set in `.env`). All other external services (Stripe, Clerk, Veriff, AWS SES) are mocked — see `.env.example` for configuration.
 
-### Prerequisites
+### Prerequisites (human developers only — already satisfied in agent container)
 
 - Node.js 22.x LTS and npm
-- PostgreSQL 16 (via Docker Compose: `docker compose up -d`)
+- PostgreSQL 16
 - dbmate for migrations (`npm run migrate` or `dbmate up`)
 
 ### Already provided — do not recreate
 
-- **PostgreSQL** is provisioned via Docker Compose (see `docker-compose.yml` at project root). Do not create additional database infrastructure.
-- **Dev stack** starts with `npm run dev` (backend at `localhost:3000`, frontend at `localhost:5173`). Restart with `make dev-stack` if needed.
+- **PostgreSQL** — connection details come from `DATABASE_URL` in `.env`. Never hardcode connection strings.
+- **Dev stack** starts with `npm run dev` (backend at `localhost:3001`, frontend at `localhost:5173`). Restart with `make dev-stack` if needed.
 - **Database migrations** live in `db/migrations/` and are applied with dbmate. Do not create alternative migration tooling.
 - **Pre-installed tooling:** dbmate, Biome (lint/format), Playwright (E2E), Vitest (unit/integration).
 
