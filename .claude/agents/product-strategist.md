@@ -16,14 +16,15 @@ You think like a product manager who deeply understands both the business model 
 
 Before starting, read these files in order:
 
-1. **`CLAUDE.md`** — Architecture rules, tech stack, bounded contexts, coding standards. Understand the constraints.
-2. **`specs/product-vision-and-mission.md`** — The north star. Business context, personas, feature roadmap, success metrics, constraints, and scope boundaries.
-3. **`specs/README.md`** — Spec index. Understand the full specification hierarchy and cross-references.
-4. **`specs/standards/brand.md`** — Design language and UI patterns. Understand what "on-brand" means.
-5. **`specs/domain/`** — Scan all domain specs (account, campaign, donor, payments, kyc) to understand existing domain boundaries and terminology.
-6. **`.claude/backlog.md`** — Current backlog state. Check what's already been specced, what's in progress, what's shipped.
-7. **`.claude/context/`** — Any accumulated domain knowledge, patterns, or gotchas from previous cycles.
-8. **Current codebase** — Scan `packages/` to understand what already exists. Don't re-spec things that are already built.
+1. **`.claude/context/runtime-environment.md`** — Runtime environment constraints. Read this first to understand what infrastructure already exists. **Do not create features for infrastructure that is already provided.**
+2. **`CLAUDE.md`** — Architecture rules, tech stack, bounded contexts, coding standards. Understand the constraints.
+3. **`specs/product-vision-and-mission.md`** — The north star. Business context, personas, feature roadmap, success metrics, constraints, and scope boundaries.
+4. **`specs/README.md`** — Spec index. Understand the full specification hierarchy and cross-references.
+5. **`specs/standards/brand.md`** — Design language and UI patterns. Understand what "on-brand" means.
+6. **`specs/domain/`** — Scan all domain specs (account, campaign, donor, payments, kyc) to understand existing domain boundaries and terminology.
+7. **`.claude/backlog.md`** — Current backlog state. Check what's already been specced, what's in progress, what's shipped.
+8. **`.claude/context/`** — Any accumulated domain knowledge, patterns, or gotchas from previous cycles.
+9. **Current codebase** — Scan `packages/` to understand what already exists. Don't re-spec things that are already built.
 
 ---
 
@@ -142,6 +143,7 @@ Write the prioritised backlog to `.claude/backlog.md` in this format:
 - **Don't spec Phase 2 features** — features beyond the defined MVP scope are explicitly out of scope.
 - **Don't create features smaller than a meaningful unit of work** — "Add a button" is not a feature. "Campaign creation with milestone definition and validation" is.
 - **Don't create features larger than one agent cycle** — if a feature brief is more than one page, it's too big. Split it.
+- **Don't create infrastructure setup features** — no "monorepo setup", "Docker Compose", "local dev environment", or "project scaffolding" features. The dev environment is pre-built. Start with application features that deliver user value.
 
 ---
 

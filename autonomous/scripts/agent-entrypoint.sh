@@ -183,6 +183,36 @@ git push -u origin "${BRANCH_NAME}"
 echo "Working on branch: ${BRANCH_NAME}"
 
 # ---------------------------------------------------------------------------
+# Step 5b: Write runtime environment context for subagents
+# ---------------------------------------------------------------------------
+STEP="runtime_context"
+mkdir -p .claude/context
+cat > .claude/context/runtime-environment.md <<'RUNTIME_EOF'
+# Runtime Environment
+
+You are running inside an isolated Docker container (Debian/Node 22). The local development infrastructure is already set up — do not recreate it.
+
+## What is already running
+
+- **PostgreSQL** at `postgres:5432` (user: `mmf`, password: `mmf`, db: `mmf`). All migrations applied. `DATABASE_URL` is set.
+- **Dev stack** — backend at `localhost:3000`, frontend at `localhost:5173`. Restart with `make dev-stack`.
+- **Pre-installed tools:** `node`, `npm`, `dbmate`, `psql`, `gh`, `playwright` (Chromium), `biome`, `prek`, `gitleaks`, `curl`, `jq`
+
+## What is NOT available
+
+- **No Docker daemon** — you are INSIDE a container. Never create `docker-compose.yml`, Dockerfiles, or Docker-based dev setup.
+- **No outbound HTTPS** except: GitHub, npm, Anthropic, Clerk, PostHog.
+- **No sudo / no package installs.**
+
+## Implications for feature planning
+
+- Do NOT create features for "project setup", "monorepo scaffolding", "Docker Compose", or "local dev environment". These are solved.
+- Feature briefs must describe **application features** (user-facing value), not infrastructure.
+- Acceptance criteria must never reference `docker-compose`, `Dockerfile`, or container provisioning.
+RUNTIME_EOF
+echo "Runtime environment context written."
+
+# ---------------------------------------------------------------------------
 # Step 6: Run Claude Code
 # ---------------------------------------------------------------------------
 STEP="claude"
