@@ -26,11 +26,11 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
 
 2. **Verify git state:**
    - Confirm no uncommitted changes
-   - Sync main with upstream:
+   - Sync main with origin:
      ```bash
-     git fetch upstream main
+     git fetch origin main
      git checkout main
-     git reset --hard upstream/main
+     git reset --hard origin/main
      ```
 
 3. **Check safety limits:**
@@ -69,10 +69,10 @@ You are the **Pipeline Orchestrator**. Your job is to run the continuous product
 6. **Resolve base branch and create feature branch:**
    - Read this feature's dependencies from `.claude/backlog.md`
    - For each dependency:
-     - If status is "SHIPPED" → already in upstream/main, skip
+     - If status is "SHIPPED" → already in origin/main, skip
      - If it was built in this pipeline run and has an unmerged branch → candidate
    - **If all dependencies are SHIPPED (or feature has none):**
-     - Base = `upstream/main`
+     - Base = `origin/main`
      - `PR_TARGET = "main"`
    - **If any dependency has an unmerged branch from this run:**
      - Base = `PREVIOUS_FEATURE_BRANCH` (the last-built feature's branch, which contains all stacked work)
@@ -114,7 +114,7 @@ After implementation is complete and before running the Quality Track:
 
 2. Start the dev stack (backend + frontend):
    ```bash
-   /opt/agent/scripts/start-dev-stack.sh
+   make dev-stack
    ```
 
 3. Verify the stack is accessible:
@@ -193,27 +193,16 @@ Screenshots are uploaded to GitHub's CDN (not committed to the repo) to avoid bl
 2. Ensure the app stack is running (it should be from the Playwright tester step)
 3. Open browser once: `playwright-cli open http://localhost:5173`
 4. Resize once: `playwright-cli resize 1280 800`
-5. Resolve the origin repo from git remotes (for the GitHub API calls):
-   ```bash
-   ORIGIN_REPO=$(git remote get-url origin | sed 's|.*github.com[:/]||;s|\.git$||')
-   ```
-6. For each affected route, capture to a temp file and upload to GitHub:
+5. For each affected route, capture to a temp file and upload to GitHub:
    ```bash
    playwright-cli goto /<route>
    # If auth required: playwright-cli state-load (use saved auth state from Playwright tester)
    playwright-cli screenshot --filename=/tmp/feat-XXX-{route-slug}.png
 
-   # Upload to GitHub CDN — returns a markdown image URL
+   # Upload screenshot as a blob to GitHub CDN
    SCREENSHOT_URL=$(gh api \
      --method POST \
-     -H "Accept: application/json" \
-     "repos/${ORIGIN_REPO}/issues/1/comments" \
-     -f body="![{route-slug}](placeholder)" \
-     --jq '.body' 2>/dev/null || true)
-   # Alternative: use the repository's upload mechanism
-   SCREENSHOT_URL=$(gh api \
-     --method POST \
-     "repos/${ORIGIN_REPO}/git/blobs" \
+     "repos/{owner}/{repo}/git/blobs" \
      -f content="$(base64 < /tmp/feat-XXX-{route-slug}.png)" \
      -f encoding=base64 \
      --jq '.url' 2>/dev/null || true)
