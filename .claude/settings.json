@@ -98,9 +98,11 @@
 
       "Bash(terraform fmt:*)",
       "Bash(terraform validate:*)",
-      "Bash(tflint:*)"
+      "Bash(tflint:*)",
+
+      "Bash(git worktree:*)"
     ],
-    "deny": ["Bash(git branch -D:*)", "Bash(gh pr merge:*)", "Bash(git -C *)", "Bash(cd *)"],
+    "deny": ["Bash(git branch -D:*)", "Bash(gh pr merge:*)", "Bash(cd *)"],
     "ask": []
   },
   "hooks": {
