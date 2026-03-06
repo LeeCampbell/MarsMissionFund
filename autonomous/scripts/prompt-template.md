@@ -1,20 +1,13 @@
-## Runtime Environment — READ THIS FIRST
+## Autonomous Agent Context
 
-You are running inside an isolated Docker container (Debian/Node 22). Before you started, the entrypoint already: cloned the repo to `/workspace`, ran `npm ci`, generated `.env` from `.env.example`, configured pre-commit hooks (prek), reset the database with all migrations applied, started the dev stack, and created a working branch.
+You are running inside an isolated Docker container. The entrypoint has already cloned the repo, installed dependencies, generated `.env`, applied all database migrations, started the dev stack, and created a working branch. Read `CLAUDE.md` for the full development environment description.
 
-### What is already running
+### Container-specific constraints
 
-- **PostgreSQL** at `postgres:5432` (user: `mmf`, password: `mmf`, db: `mmf`). All migrations applied. `DATABASE_URL` is set. Do NOT provision or start a database — just use it.
-- **Dev stack** — backend at `localhost:3000`, frontend at `localhost:5173`. Restart with `make dev-stack` after migrations or code changes.
-- **Pre-installed tools:** `node`, `npm`, `dbmate`, `psql`, `gh`, `playwright` (Chromium), `biome`, `prek`, `gitleaks`, `curl`, `jq`
-
-### What is NOT available
-
-- **No Docker daemon** — you are INSIDE a container. Never create `docker-compose.yml`, Dockerfiles, or Docker-based dev setup. The dev environment is this container.
+- **No Docker daemon** — you are INSIDE a container. Never create `docker-compose.yml`, Dockerfiles, or Docker-based dev setup.
 - **No outbound HTTPS** except allowlisted domains (GitHub, npm, Anthropic, Clerk, PostHog). Use WebSearch instead of WebFetch for docs.
 - **No sudo / no package installs** — work with what's pre-installed.
-
-Feature briefs and specs should describe application features, not infrastructure setup. The local infrastructure is already solved.
+- **Additional tools available:** `psql`, `gh`, `prek`, `gitleaks`, `curl`, `jq`
 
 ### Escalation — when to alert a human
 
