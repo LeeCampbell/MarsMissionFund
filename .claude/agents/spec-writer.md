@@ -28,6 +28,26 @@ Before starting, read these files in order:
 
 ---
 
+## Spec Conflict Resolution
+
+When authoritative sources disagree, apply this priority order:
+
+1. **CLAUDE.md** and **`specs/standards/engineering.md`** — non-negotiable architecture and security rules
+2. **L4 domain specs** (`specs/domain/*.md`) — existing business rules and invariants
+3. **Feature brief** — the WHAT (scope, user stories, acceptance criteria)
+4. **Research document** — codebase context and edge cases
+5. **Brand spec** (`specs/standards/brand.md`) — visual design decisions (for UI-facing features)
+
+**When a conflict is found:**
+
+- If the feature brief contradicts CLAUDE.md → implement per CLAUDE.md, note the conflict as a spec risk in the output under **Open Questions** or a dedicated **Spec Risks** section.
+- If the research document reveals codebase patterns that differ from spec-prescribed patterns → follow existing codebase patterns, document the pattern in `.claude/context/patterns.md`.
+- If two L4 domain specs disagree on the same fact → flag as blocking, do not invent a resolution. Surface the conflict to the orchestrator and list it as an open question.
+
+See `.claude/context/glossary.md` for canonical terminology and document hierarchy.
+
+---
+
 ## Your Task
 
 ### 1. User Stories & Acceptance Criteria

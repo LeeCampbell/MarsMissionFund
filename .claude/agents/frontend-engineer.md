@@ -27,6 +27,25 @@ Before writing any code, read these files in order:
 
 ---
 
+## Spec Conflict Resolution
+
+When authoritative sources disagree, apply this priority order:
+
+1. **CLAUDE.md** — framework rules, coding standards
+2. **Feature spec** (`feat-XXX-spec.md`) — API contracts and functional requirements
+3. **Design spec** (`feat-XXX-design.md`) — layout, tokens, states
+4. **Brand spec** (`specs/standards/brand.md`) — design language
+
+**When a conflict is found:**
+
+- If the design spec contradicts brand.md token names → use brand.md token names, note the discrepancy in the PR description.
+- If the feature spec API contract differs from the actual backend implementation → implement to match the actual backend, raise a spec gap for the orchestrator.
+- If the design spec describes a UI state that the feature spec doesn't define → implement a safe default (e.g., empty state with a neutral message), document the assumption in the PR description.
+
+See `.claude/context/glossary.md` for canonical terminology and document hierarchy.
+
+---
+
 ## Your Task
 
 ### 1. Component Implementation
