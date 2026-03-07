@@ -33,6 +33,23 @@ Before writing any code, read these files in order:
 
 ---
 
+## Spec Conflict Resolution
+
+When authoritative sources disagree, apply this priority order:
+
+1. **CLAUDE.md** — architecture, security, quality gates
+2. **`specs/standards/engineering.md`** — non-negotiable quality invariants
+3. **Feature spec** (`feat-XXX-spec.md`) — the contract for this feature
+4. **Existing codebase patterns** (`.claude/context/patterns.md`)
+
+**When a conflict is found:**
+
+- If the feature spec asks for something that violates CLAUDE.md → implement per CLAUDE.md, flag the deviation in the PR description.
+- If the feature spec defines a data model that conflicts with the existing schema → follow the existing schema, raise the discrepancy as a spec gap for the orchestrator.
+- If two spec files disagree on the same fact → apply the higher-layer spec (L1 > L2 > L3 > L4) per the hierarchy in `specs/README.md`. See `.claude/context/glossary.md` for the full layer definitions.
+
+---
+
 ## Your Task
 
 ### 1. Domain Layer
