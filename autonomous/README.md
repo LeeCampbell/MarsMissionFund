@@ -3,12 +3,12 @@
 Isolated Docker environment for running Claude Code with `--dangerously-skip-permissions`.
 Container isolation replaces the permission model as the security boundary.
 
-The agent uses a **digital twin GitHub account** (not personal credentials) with reduced privileges — it can create branches and PRs but cannot merge.
+The agent uses a **digital twin GitHub account** (not personal credentials) with a classic PAT (`repo` scope). It can create branches and PRs but cannot merge (blocked by a deny rule in `.claude/settings.json`).
 
 ## Prerequisites
 
 - Docker and Docker Compose
-- A GitHub PAT for the digital twin account (scoped to `repo`)
+- A **classic** GitHub PAT for the digital twin account (scoped to `repo`) — fine-grained PATs cannot create cross-fork PRs
 - A Claude Code auth token (OAuth subscription or Anthropic API key)
 
 ## Quick Start
@@ -44,9 +44,10 @@ GitHub and git identity (use the digital twin account, never personal):
 
 | Variable | Description | Example |
 |---|---|---|
-| `GITHUB_TOKEN` | PAT for the digital twin account | `ghp_xxxx` |
+| `GITHUB_TOKEN` | Classic PAT for the digital twin account (`repo` scope) | `ghp_xxxx` |
 | `REPO_URL` | Repository to clone | `https://github.com/LeeCampbell/MarsMissionFund` |
 | `BASE_BRANCH` | Branch to clone and base work from | `main` |
+| `UPSTREAM_REPO` | *(optional)* Fork workflow: upstream `owner/repo` to sync main from | *(unset)* |
 | `GIT_AUTHOR_NAME` | Commit author name | `mmf-agent` |
 | `GIT_AUTHOR_EMAIL` | Commit author email | `mmf-agent@example.com` |
 | `GIT_COMMITTER_NAME` | Commit committer name | `mmf-agent` |
