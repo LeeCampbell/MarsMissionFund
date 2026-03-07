@@ -334,26 +334,7 @@ export class CreateCampaignService {
 
 Dependencies are wired manually at the composition root. No DI containers, no decorators, no magic.
 
-```typescript
-// packages/backend/src/composition-root.ts
-import { Pool } from 'pg';
-import { PgCampaignRepository } from './campaign/adapters/pg/pg-campaign-repository';
-import { SesEmailAdapter } from './campaign/adapters/ses/ses-email-adapter';
-import { MockEmailAdapter } from './campaign/adapters/mock/mock-email-adapter';
-import { CreateCampaignService } from './campaign/application/create-campaign-service';
-
-export function createServices(pool: Pool) {
-  const campaignRepo = new PgCampaignRepository(pool);
-  const emailAdapter = process.env.MOCK_EMAIL === 'true'
-    ? new MockEmailAdapter()
-    : new SesEmailAdapter();
-
-  return {
-    createCampaign: new CreateCampaignService(campaignRepo, emailAdapter),
-    // ... other services
-  };
-}
-```
+**Example:** See `.claude/context/examples/di-wiring.ts` for the composition root wiring pattern.
 
 **Application service rules:**
 - Receives ALL dependencies via constructor — never imports concrete adapters
@@ -423,34 +404,7 @@ Migrations are managed by **dbmate**. Files live in `db/migrations/` at the proj
 
 **Naming:** `YYYYMMDDHHMMSS_[description].sql`
 
-**Template:**
-```sql
--- migrate:up
-CREATE TABLE IF NOT EXISTS campaigns (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    creator_id UUID NOT NULL REFERENCES accounts(id) ON DELETE CASCADE,
-    title VARCHAR(200) NOT NULL,
-    description TEXT,
-    goal_amount_cents BIGINT NOT NULL CHECK (goal_amount_cents > 0),
-    raised_amount_cents BIGINT NOT NULL DEFAULT 0 CHECK (raised_amount_cents >= 0),
-    status VARCHAR(20) NOT NULL DEFAULT 'draft'
-        CHECK (status IN ('draft', 'live', 'funded', 'expired', 'cancelled')),
-    deadline TIMESTAMPTZ NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
-);
-
-CREATE INDEX idx_campaigns_creator_id ON campaigns(creator_id);
-CREATE INDEX idx_campaigns_status ON campaigns(status);
-
-CREATE TRIGGER update_campaigns_updated_at
-    BEFORE UPDATE ON campaigns
-    FOR EACH ROW
-    EXECUTE FUNCTION update_updated_at_column();
-
--- migrate:down
-DROP TABLE IF EXISTS campaigns;
-```
+**Template:** See `db/migrations/.template.sql` for the standard migration structure.
 
 **Migration rules:**
 - Append-only — NEVER modify existing migration files
